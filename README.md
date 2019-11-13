@@ -1,1 +1,8 @@
-https://www.abc.virginia.gov/webapi/inventory/mystore?storeNumbers=79&productCodes=016845
+bourbon-finder
+===============
+
+A tool for finding bourbon (and any product) from Virginia ABC stores.
+
+
+    make
+    make run

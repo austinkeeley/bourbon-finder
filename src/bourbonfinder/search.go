@@ -21,7 +21,7 @@ type SearchResult struct {
 
 type Store struct {
 	Name    string `json:"name"`
-	StoreID int    `json:"storeID`
+	StoreID int    `json:"storeID"`
 }
 
 type Product struct {
@@ -68,6 +68,9 @@ func Search(configFileName string) ([]SearchResult, error) {
 
 	client := &http.Client{}
 	var wg sync.WaitGroup
+
+	fmt.Printf("%-40s %-40s %-5s\n", "Location", "Product", "Quantity")
+	fmt.Printf("-------------------------------------------------------------------------------------------\n")
 
 	for _, store := range config.Stores {
 		for _, product := range config.Wishlist {
