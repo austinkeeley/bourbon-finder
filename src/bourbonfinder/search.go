@@ -69,25 +69,32 @@ func Search(configFileName string) ([]SearchResult, error) {
 	client := &http.Client{}
 	var wg sync.WaitGroup
 
-	fmt.Printf("%-40s %-40s %-5s\n", "Location", "Product", "Quantity")
-	fmt.Printf("-------------------------------------------------------------------------------------------\n")
+	/*
+		fmt.Printf("%-40s %-40s %-5s\n", "Location", "Product", "Quantity")
+		fmt.Printf("-------------------------------------------------------------------------------------------\n")
+	*/
 
+	var results []SearchResult
 	for _, store := range config.Stores {
+		log.Println("Searching " + store.Name)
 		for _, product := range config.Wishlist {
 			wg.Add(1)
 			go ProductStoreSearch(client, store, product, func(result SearchResult, err error) {
-				if result.Quantity > 0 {
-					fmt.Printf("\033[1;32m")
-				}
-				fmt.Printf("%-40s %-40s %-5d\n", result.StoreName, result.ProductName, result.Quantity)
-				fmt.Printf("\033[0m")
+				/*
+					if result.Quantity > 0 {
+						fmt.Printf("\033[1;32m")
+					}
+					fmt.Printf("%-40s %-40s %-5d\n", result.StoreName, result.ProductName, result.Quantity)
+					fmt.Printf("\033[0m")
+				*/
+				results = append(results, result)
 				wg.Done()
 			})
 		}
 	}
 
 	wg.Wait()
-	return nil, nil
+	return results, nil
 }
 
 // Searches for a product at a store

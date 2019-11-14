@@ -1,17 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"flag"
-	"os"
 	"bourbonfinder"
+	"flag"
+	"fmt"
+	"os"
 )
 
 func main() {
 
 	var configFileName string
 	flag.StringVar(&configFileName, "config", "", "Path to the config JSON file. Required.")
-	flag.StringVar(&configFileName,"c", "", "Path to the config JSON file (shorthand). Required.")
+	flag.StringVar(&configFileName, "c", "", "Path to the config JSON file (shorthand). Required.")
 	flag.Parse()
 
 	if configFileName == "" {
@@ -20,7 +20,11 @@ func main() {
 	}
 
 	//bourbonfinder.Search("data/config.json")
-	bourbonfinder.Search(configFileName)
+	results, _ := bourbonfinder.Search(configFileName)
+	//results = bourbonfinder.SortByStore(results)
+	m := bourbonfinder.GroupByStore(results)
+
+	bourbonfinder.PrintGroup(m)
 }
 
 func usage() {
