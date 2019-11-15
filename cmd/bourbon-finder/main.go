@@ -2,6 +2,8 @@ package main
 
 import (
 	"bourbonfinder"
+	"bourbonweb"
+	"bourboncommon"
 	"flag"
 	"fmt"
 	"os"
@@ -10,8 +12,10 @@ import (
 func main() {
 
 	var configFileName string
-	flag.StringVar(&configFileName, "config", "", "Path to the config JSON file. Required.")
-	flag.StringVar(&configFileName, "c", "", "Path to the config JSON file (shorthand). Required.")
+	var startWeb bool
+
+	flag.StringVar(&configFileName, "c", "", "Path to the config JSON file. Required.")
+	flag.BoolVar(&startWeb, "w", false, "Start web server.")
 	flag.Parse()
 
 	if configFileName == "" {
@@ -19,12 +23,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	//bourbonfinder.Search("data/config.json")
-	results, _ := bourbonfinder.Search(configFileName)
-	//results = bourbonfinder.SortByStore(results)
-	m := bourbonfinder.GroupByStore(results)
+	config, err := bourboncommon.OpenConfig(configFileName)
+	if err != nil {
+		fmt.Println("Error: Could not open config file " + configFileName)
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-	bourbonfinder.PrintGroup(m)
+	if startWeb {
+		bourbonweb.StartWebServer("0.0.0.0:5001", config)
+	} else {
+		results, _ := bourbonfinder.Search(config)
+		m := bourbonfinder.GroupByStore(results)
+		bourbonfinder.PrintGroup(m)
+	}
 }
 
 func usage() {

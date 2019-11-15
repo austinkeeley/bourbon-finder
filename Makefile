@@ -19,7 +19,7 @@ clean:
 
 fmt:
 	cd cmd/$(SERVER_BINARY) && $(GOFMT)
-	cd src && $(GOFMT) bourbonfinder
+	cd src && $(GOFMT) *
 
 vet:
 	cd cmd/$(SERVER_BINARY) && $(GOVET)
