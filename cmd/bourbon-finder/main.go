@@ -35,7 +35,7 @@ func main() {
 	} else {
 		results, _ := bourbonfinder.Search(config)
 		m := bourbonfinder.GroupByStore(results)
-		bourbonfinder.PrintGroup(m)
+		bourbonfinder.PrintGroup(m, os.Stdout, true)
 	}
 }
 
