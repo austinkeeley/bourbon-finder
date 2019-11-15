@@ -3,8 +3,8 @@ package bourbonfinder
 
 import (
 	"fmt"
-	"sort"
 	"io"
+	"sort"
 )
 
 // Prints the results as a table
@@ -35,7 +35,7 @@ func PrintGroup(m map[string][]SearchResult, writer io.Writer, color bool) {
 		})
 
 		for _, result := range results {
-			if result.Quantity > 0  && color {
+			if result.Quantity > 0 && color {
 				writer.Write([]byte(fmt.Sprintf("\033[1;32m")))
 			}
 			if !first {

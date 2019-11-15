@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bourboncommon"
 	"bourbonfinder"
 	"bourbonweb"
-	"bourboncommon"
 	"flag"
 	"fmt"
 	"os"
