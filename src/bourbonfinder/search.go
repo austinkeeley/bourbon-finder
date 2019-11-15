@@ -20,25 +20,7 @@ type SearchResult struct {
 	Quantity    int    // Quantity in stock
 }
 
-/*
-type Store struct {
-	Name    string `json:"name"`
-	StoreID int    `json:"storeID"`
-}
-
-type Product struct {
-	Name        string `json:"name"`
-	ProductCode string `json:"productCode"`
-}
-
-type Config struct {
-	Stores   []Store   `json:"stores"`
-	Wishlist []Product `json:"wishlist"`
-}
-*/
-
 // Data returned from the endpoint
-
 type wsResult struct {
 	Products []wsProduct `json:"products"`
 }
@@ -52,31 +34,10 @@ type storeInfo struct {
 	Quantity int `json:"quantity"`
 }
 
-// Performs a serach using the stores and wishlist from a config.json file
-/*func Search(configFileName string) ([]SearchResult, error) {
-log.Println("Opening file " + configFileName)
-file, err := os.Open(configFileName)
-if err != nil {
-	log.Println("Could not open config file " + configFileName)
-	return nil, err
-}
-defer file.Close()
-
-var config *Config
-err = json.NewDecoder(file).Decode(&config)
-if err != nil {
-	log.Println("Error parsing config file " + configFileName)
-	return nil, err
-}*/
 func Search(config *bourboncommon.Config) ([]SearchResult, error) {
 
 	client := &http.Client{}
 	var wg sync.WaitGroup
-
-	/*
-		fmt.Printf("%-40s %-40s %-5s\n", "Location", "Product", "Quantity")
-		fmt.Printf("-------------------------------------------------------------------------------------------\n")
-	*/
 
 	var results []SearchResult
 	for _, store := range config.Stores {
@@ -84,13 +45,6 @@ func Search(config *bourboncommon.Config) ([]SearchResult, error) {
 		for _, product := range config.Wishlist {
 			wg.Add(1)
 			go ProductStoreSearch(client, store, product, func(result SearchResult, err error) {
-				/*
-					if result.Quantity > 0 {
-						fmt.Printf("\033[1;32m")
-					}
-					fmt.Printf("%-40s %-40s %-5d\n", result.StoreName, result.ProductName, result.Quantity)
-					fmt.Printf("\033[0m")
-				*/
 				results = append(results, result)
 				wg.Done()
 			})
