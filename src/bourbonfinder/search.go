@@ -45,7 +45,11 @@ func Search(config *bourboncommon.Config) ([]SearchResult, error) {
 		for _, product := range config.Wishlist {
 			wg.Add(1)
 			go ProductStoreSearch(client, store, product, func(result SearchResult, err error) {
-				results = append(results, result)
+				if err != nil {
+					log.Println("Error trying to search " + store.Name + " and product " + product.Name)
+				} else {
+					results = append(results, result)
+				}
 				wg.Done()
 			})
 		}
@@ -56,11 +60,15 @@ func Search(config *bourboncommon.Config) ([]SearchResult, error) {
 }
 
 // Searches for a product at a store
-func ProductStoreSearch(client *http.Client, store bourboncommon.Store, product bourboncommon.Product, cb func(result SearchResult, err error)) {
+func ProductStoreSearch(client *http.Client, store bourboncommon.Store,
+	product bourboncommon.Product, cb func(result SearchResult, err error)) {
 	url := fmt.Sprintf("%s?storeNumbers=%d&productCodes=%s", API_ENDPOINT, store.StoreID, product.ProductCode)
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Accept", "application/json")
-	resp, _ := client.Do(req)
+	resp, webErr := client.Do(req)
+	if webErr != nil {
+		cb(SearchResult{}, webErr)
+	}
 
 	var r wsResult
 	err := json.NewDecoder(resp.Body).Decode(&r)
