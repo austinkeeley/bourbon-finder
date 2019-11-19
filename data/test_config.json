@@ -1,0 +1,23 @@
+{
+    "stores": [
+        {
+            "name": "Kempsville Road",
+            "storeID": 437
+        },
+        {
+            "name": "South Battlefield Blvd.",
+            "storeID": 349
+        }
+    ],
+
+    "wishlist": [
+        {
+            "name": "Eagle Rare 10 Year Bourbon 375 ml",
+            "productCode": "017764"
+        },
+        {
+            "name": "Blanton's Single Barrel Bourbon 375 ml",
+            "productCode": "016845"
+        }
+    ]
+}
