@@ -9,11 +9,21 @@ Requires Go 1.10 or later.
 
 ## Building
 
+    git clone https://github.com/austinkeeley/bourbon-finder.git
+    export GOPATH=$(pwd)
     make
 
 ## Usage
 
-Create a json file that contains the stores and products you want to search.
+Create a json file that contains the stores and products you want to search. 
+See the example below.
+
+For stores, the store `name` is just for readability pourposes. The `storeID` 
+is the actual ID to search on.
+
+For the wishlist, the `productCode` is the actual ID to search for and the name
+is for display purposes. Note that different product sizes have different 
+`productCode` values.
 
 Example (using `data/test_config.json`):
 
